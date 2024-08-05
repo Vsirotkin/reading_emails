@@ -1,0 +1,31 @@
+[[source]]
+url = "https://pypi.org/simple"
+verify_ssl = true
+name = "pypi"
+
+
+[packages]
+django              = "==4.2.14"
+djangorestframework = "==3.14.0"
+Channels            = "==4.0.0"
+Channels-redis      = "==4.1.0"
+Daphne              = "==4.0.0"
+IMAPClient          = "==3.0.1"
+pyzmail36           = "==1.0.5"
+
+
+[scripts]
+# Syntax: <command> = "<path_to_python> <path_to_manage.py> <command_options>"
+migrations = "pipenv run python manage.py makemigrations"
+migrate = "pipenv run python manage.py migrate"
+superuser = "pipenv run python manage.py createsuperuser"
+runserver = "pipenv run python manage.py runserver"
+startapp = "pipenv run python manage.py startapp"
+
+
+[dev-packages]
+pytest = "*"
+
+
+[requires]
+python_version = "3.12"
