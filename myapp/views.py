@@ -1,3 +1,7 @@
-from django.shortcuts import render
+from rest_framework import viewsets
+from myapp.models import EmailMessage
+from myapp.serializers import EmailMessageSerializer
 
-# Create your views here.
+class EmailMessageViewSet(viewsets.ModelViewSet):
+    queryset = EmailMessage.objects.all()
+    serializer_class = EmailMessageSerializer
