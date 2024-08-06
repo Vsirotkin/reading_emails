@@ -21,6 +21,7 @@ migrate = "pipenv run python manage.py migrate"
 superuser = "pipenv run python manage.py createsuperuser"
 runserver = "pipenv run python manage.py runserver"
 startapp = "pipenv run python manage.py startapp"
+emails = 'pipenv run python manage.py import_emails'
 
 
 [dev-packages]
