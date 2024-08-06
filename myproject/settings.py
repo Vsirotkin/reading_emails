@@ -31,6 +31,7 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
+    'daphne',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -39,6 +40,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
 
     # added
+    'channels',
     'myapp.apps.MyappConfig',    
     'rest_framework',
 ]
@@ -130,3 +132,15 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 # EMAIL
 EMAIL_USER = 'vsirotkin15@gmail.com'
 EMAIL_PASSWORD = 'opqb kwoc lenh ywaj'  # пароль, если включена двухфакторная аутентификация
+
+# ASGI
+ASGI_APPLICATION = 'myproject.routing.application'
+
+CHANNEL_LAYERS = {
+    'default': {
+        'BACKEND': 'channels_redis.core.RedisChannelLayer',
+        'CONFIG': {
+            "hosts": [('127.0.0.1', 6379)],
+        },
+    },
+}

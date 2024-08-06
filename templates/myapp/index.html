@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Email Notifications</title>
+    <script src="https://cdn.jsdelivr.net/npm/socket.io-client@4/dist/socket.io.js"></script>
+</head>
+<body>
+    <h1>Email Notifications</h1>
+    <ul id="email-list"></ul>
+
+    <script>
+        const socket = new WebSocket('ws://' + window.location.host + '/ws/email/');
+
+        socket.onmessage = function(e) {
+            const data = JSON.parse(e.data);
+            const emailList = document.getElementById('email-list');
+            const li = document.createElement('li');
+            li.textContent = data.message;
+            emailList.appendChild(li);
+        };
+
+        socket.onclose = function(e) {
+            console.error('WebSocket closed unexpectedly');
+        };
+    </script>
+</body>
+</html>

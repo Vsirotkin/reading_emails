@@ -22,6 +22,7 @@ superuser = "pipenv run python manage.py createsuperuser"
 runserver = "pipenv run python manage.py runserver"
 startapp = "pipenv run python manage.py startapp"
 emails = 'pipenv run python manage.py import_emails'
+asgi = "pipenv run daphne myproject.asgi:application"
 
 
 [dev-packages]
