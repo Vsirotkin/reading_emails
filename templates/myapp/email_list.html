@@ -1,0 +1,56 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <div id="progress-bar">
+        <p class="loading">Reading messages...</p>
+    </div>
+    <ul id="message-list">
+        {% for email in email_messages %}
+        <li>
+            <strong>Subject:</strong> {{ email.subject }}<br>
+            <strong>Sent Date:</strong> {{ email.sent_date }}<br>
+            <strong>Received Date:</strong> {{ email.received_date }}<br>
+            <strong>Body:</strong> {{ email.body }}<br>
+            <strong>Attachments:</strong> {{ email.attachments }}
+        </li>
+        {% endfor %}
+    </ul>
+
+    <script>
+        const socket = new WebSocket('ws://' + window.location.host + '/ws/email/');
+
+        socket.onopen = function() {
+            console.log('WebSocket connection established');
+        };
+
+        socket.onmessage = function(e) {
+            const data = JSON.parse(e.data);
+            const messageList = document.getElementById('message-list');
+            const newLi = document.createElement('li');
+            newLi.innerHTML = `
+                <strong>Subject:</strong> ${data.subject}<br>
+                <strong>Sent Date:</strong> ${data.sent_date}<br>
+                <strong>Received Date:</strong> ${data.received_date}<br>
+                <strong>Body:</strong> ${data.body}<br>
+                <strong>Attachments:</strong> ${data.attachments}
+            `;
+            messageList.appendChild(newLi);
+        };
+
+        socket.onclose = function(e) {
+            console.error('WebSocket closed unexpectedly');
+            const messageList = document.getElementById('message-list');
+            const li = document.createElement('li');
+            li.textContent = 'Connection closed. Please refresh the page to reconnect.';
+            messageList.appendChild(li);
+        };
+
+        socket.onerror = function(error) {
+            console.error('WebSocket error:', error);
+            const messageList = document.getElementById('message-list');
+            const li = document.createElement('li');
+            li.textContent = 'Connection error. Please try again later.';
+            messageList.appendChild(li);
+        };
+    </script>
+{% endblock %}

@@ -21,10 +21,11 @@ requests = "*"
 migrations = "pipenv run python manage.py makemigrations"
 migrate = "pipenv run python manage.py migrate"
 superuser = "pipenv run python manage.py createsuperuser"
-runserver = "pipenv run python manage.py runserver"
+server = "pipenv run python manage.py runserver"
 startapp = "pipenv run python manage.py startapp"
 emails = 'pipenv run python manage.py import_emails'
 asgi = "pipenv run daphne myproject.asgi:application"
+send = "pipenv run python manage.py send_messages"
 
 
 [dev-packages]
