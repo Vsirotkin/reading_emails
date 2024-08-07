@@ -13,6 +13,8 @@ Daphne              = "==4.0.0"
 IMAPClient          = "==3.0.1"
 pyzmail36           = "==1.0.5"
 
+requests = "*"
+
 
 [scripts]
 # Syntax: <command> = "<path_to_python> <path_to_manage.py> <command_options>"
@@ -27,6 +29,7 @@ asgi = "pipenv run daphne myproject.asgi:application"
 
 [dev-packages]
 pytest = "*"
+
 
 
 [requires]
