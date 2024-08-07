@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>{% block title %}Email Notifications{% endblock %}</title>
+    <style>
+        /* Общие стили */
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+        }
+
+        .container {
+            width: 80%;
+            margin: auto;
+            overflow: hidden;
+        }
+
+        /* Стили для заголовка */
+        header {
+            background: #50b3a2;
+            color: white;
+            padding-top: 30px;
+            min-height: 70px;
+            border-bottom: #e8491d 3px solid;
+        }
+
+        header a {
+            color: #ffffff;
+            text-decoration: none;
+            text-transform: uppercase;
+            font-size: 16px;
+        }
+
+        header ul {
+            padding: 0;
+            list-style: none;
+        }
+
+        header li {
+            display: inline;
+            padding: 0 20px 0 20px;
+        }
+
+        header #branding {
+            float: left;
+        }
+
+        header #branding h1 {
+            margin: 0;
+        }
+
+        header nav {
+            float: right;
+            margin-top: 10px;
+        }
+
+        header .highlight, header .current a {
+            color: #e8491d;
+            font-weight: bold;
+        }
+
+        header a:hover {
+            color: #ffffff;
+            font-weight: bold;
+        }
+
+        /* Стили для основного контента */
+        main {
+            padding: 20px;
+            background: #ffffff;
+            margin-top: 20px;
+        }
+
+        /* Стили для списка сообщений */
+        #message-list {
+            list-style: none;
+            padding: 0;
+        }
+
+        #message-list li {
+            background: #f4f4f4;
+            margin-bottom: 5px;
+            padding: 20px;
+            border: #ccc 1px solid;
+        }
+
+        /* Стили для футера */
+        footer {
+            text-align: center;
+            padding: 20px;
+            background: #50b3a2;
+            color: white;
+            margin-top: 20px;
+        }
+
+        /* Стили для прогресс-бара */
+        #progress-bar {
+            background: #e8491d;
+            color: white;
+            padding: 10px;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Email Notifications</h1>
+    </header>
+    <main>
+        {% block content %}{% endblock %}
+    </main>
+    <footer>
+        <p>&copy; 2024 Your Company</p>
+    </footer>
+    <script>
+        $(document).ready(function() {
+            const socket = new WebSocket('ws://' + window.location.host + '/ws/email/');
+
+            socket.onopen = function() {
+                const loadingItem = document.querySelector('.loading');
+                if (loadingItem) {
+                    loadingItem.textContent = 'Connected. Waiting for messages...';
+                }
+            };
+
+            socket.onmessage = function(e) {
+                const data = JSON.parse(e.data);
+                const messageList = document.getElementById('message-list');
+                const loadingItem = document.querySelector('.loading');
+                if (loadingItem) {
+                    messageList.removeChild(loadingItem);
+                }
+                const li = document.createElement('li');
+                li.textContent = data.message;
+                messageList.appendChild(li);
+            };
+
+            socket.onclose = function(e) {
+                console.error('WebSocket closed unexpectedly');
+                const messageList = document.getElementById('message-list');
+                const li = document.createElement('li');
+                li.textContent = 'Connection closed. Please refresh the page to reconnect.';
+                messageList.appendChild(li);
+            };
+
+            socket.onerror = function(error) {
+                console.error('WebSocket error:', error);
+                const messageList = document.getElementById('message-list');
+                const li = document.createElement('li');
+                li.textContent = 'Connection error. Please try again later.';
+                messageList.appendChild(li);
+            };
+        });
+    </script>
+</body>
+</html>
