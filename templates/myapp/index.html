@@ -1,0 +1,80 @@
+
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Email Notifications</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+        }
+        #email-list {
+            list-style-type: none;
+            padding: 0;
+        }
+        #email-list li {
+            border-bottom: 1px solid #ccc;
+            padding: 10px 0;
+        }
+        .loading {
+            font-style: italic;
+            color: #888;
+        }
+    </style>
+    <script src="https://cdn.jsdelivr.net/npm/socket.io-client@4/dist/socket.io.js"></script>
+</head>
+<body>
+    <h1>Email Notifications</h1>
+    <ul id="email-list">
+        <li class="loading">Loading messages...</li>
+    </ul>
+
+    <script>
+        const socket = new WebSocket('ws://' + window.location.host + '/ws/email/');
+
+        socket.onopen = function() {
+            console.log('WebSocket connection established');
+        };
+
+        socket.onmessage = function(e) {
+            const data = JSON.parse(e.data);
+            const emailList = document.getElementById('email-list');
+            const li = document.createElement('li');
+            li.textContent = data.message;
+            emailList.appendChild(li);
+        };
+
+        socket.onclose = function(e) {
+            console.error('WebSocket closed unexpectedly');
+            const emailList = document.getElementById('email-list');
+            const li = document.createElement('li');
+            li.textContent = 'Connection closed. Please refresh the page to reconnect.';
+            emailList.appendChild(li);
+        };
+
+        socket.onerror = function(error) {
+            console.error('WebSocket error:', error);
+            const emailList = document.getElementById('email-list');
+            const li = document.createElement('li');
+            li.textContent = 'Connection error. Please try again later.';
+            emailList.appendChild(li);
+        };
+
+        // Load messages from the API
+        async function loadMessages() {
+            const response = await fetch('/api/email-messages/');
+            const messages = await response.json();
+            const emailList = document.getElementById('email-list');
+            emailList.innerHTML = ''; // Clear loading message
+            messages.forEach(message => {
+                const li = document.createElement('li');
+                li.textContent = message.body;
+                emailList.appendChild(li);
+            });
+        }
+
+        loadMessages();
+    </script>
+</body>
+</html>
+
