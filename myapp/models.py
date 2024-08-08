@@ -6,7 +6,7 @@ class EmailMessage(models.Model):
     sent_date = models.DateTimeField(null=True, blank=True, default=None)
     received_date = models.DateTimeField(null=True, blank=True, default=None)  # Добавлено значение по умолчанию None
     body = models.TextField(default='')  # Установите значение по умолчанию
-    attachments = models.JSONField(blank=True, null=True)  # Хранение списка прикреплённых файлов
+    attachments = models.FileField(upload_to='attachments/', blank=True, null=True)  # Хранение списка прикреплённых файлов
 
     def __str__(self):
         return self.subject

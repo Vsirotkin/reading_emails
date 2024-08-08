@@ -33,7 +33,7 @@ def email_list(request):
     page_obj = paginator.get_page(page_number)
 
     context = {
-        'page_obj': email_messages,
+        'page_obj': page_obj,
         'message_count': message_count,
     }
     return render(request, 'myapp/email_list.html', context)

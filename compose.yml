@@ -22,6 +22,7 @@ services:
     command: pipenv run daphne myproject.asgi:application -b 0.0.0.0 -p 8000
     volumes:
       - .:/app
+      - /home/vik/Pictures/Images:/app/media/images
     ports:
       - "8000:8000"
     environment:
