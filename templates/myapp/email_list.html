@@ -12,7 +12,12 @@
                     <strong>Sent Date:</strong> {{ email.sent_date }}<br>
                     <strong>Received Date:</strong> {{ email.received_date }}<br>
                     <strong>Body:</strong> {{ email.body }}<br>
-                    <strong>Attachments:</strong> {{ email.attachments }}
+                    <strong>Attachments:</strong>
+                        {% if email.attachments %}
+                            <a href="{{ email.attachments.url }}" target="_blank">Download attachment</a>
+                        {% else %}
+                            None
+                        {% endif %}
                 </li>
             {% endfor %}
         {% else %}
