@@ -116,42 +116,41 @@
         <p>&copy; 2024 Your Company</p>
     </footer>
     <script>
-        $(document).ready(function() {
+        document.addEventListener('DOMContentLoaded', function() {
             const socket = new WebSocket('ws://' + window.location.host + '/ws/email/');
-
+    
             socket.onopen = function() {
+                console.log('WebSocket connection established');
                 const loadingItem = document.querySelector('.loading');
                 if (loadingItem) {
                     loadingItem.textContent = 'Connected. Waiting for messages...';
                 }
             };
-
+    
             socket.onmessage = function(e) {
                 const data = JSON.parse(e.data);
                 const messageList = document.getElementById('message-list');
-                const loadingItem = document.querySelector('.loading');
-                if (loadingItem) {
-                    messageList.removeChild(loadingItem);
-                }
-                const li = document.createElement('li');
-                li.textContent = data.message;
-                messageList.appendChild(li);
+                const newLi = document.createElement('li');
+                newLi.innerHTML = `
+                    <strong>Subject:</strong> ${data.subject}<br>
+                    <strong>Sent Date:</strong> ${data.sent_date}<br>
+                    <strong>Received Date:</strong> ${data.received_date}<br>
+                    <strong>Body:</strong> ${data.body}<br>
+                    <strong>Attachments:</strong> ${data.attachments}
+                `;
+                messageList.appendChild(newLi);
             };
-
+    
             socket.onclose = function(e) {
                 console.error('WebSocket closed unexpectedly');
-                const messageList = document.getElementById('message-list');
-                const li = document.createElement('li');
-                li.textContent = 'Connection closed. Please refresh the page to reconnect.';
-                messageList.appendChild(li);
+                if (e.code !== 1000) {
+                    console.error('Connection closed. Please refresh the page to reconnect.');
+                }
             };
-
+    
             socket.onerror = function(error) {
                 console.error('WebSocket error:', error);
-                const messageList = document.getElementById('message-list');
-                const li = document.createElement('li');
-                li.textContent = 'Connection error. Please try again later.';
-                messageList.appendChild(li);
+                console.error('Connection error. Please try again later.');
             };
         });
     </script>
