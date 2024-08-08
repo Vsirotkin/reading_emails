@@ -8,23 +8,12 @@ class Command(BaseCommand):
     def handle(self, *args, **options):
         messages = [
             {
-                'subject': 'Test Message 1',
+                'subject': f'Test Message {i+1}',
                 'sent_date': timezone.now(),
                 'received_date': timezone.now(),
-                'body': 'This is the first test message.'
-            },
-            {
-                'subject': 'Test Message 2',
-                'sent_date': timezone.now(),
-                'received_date': timezone.now(),
-                'body': 'This is the second test message.'
-            },
-            {
-                'subject': 'Test Message 3',
-                'sent_date': timezone.now(),
-                'received_date': timezone.now(),
-                'body': 'This is the third test message.'
-            },
+                'body': f'This is the body of test message {i+1}.'
+            }
+            for i in range(10)
         ]
 
         for message in messages:

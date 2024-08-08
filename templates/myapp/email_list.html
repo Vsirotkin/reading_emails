@@ -5,15 +5,19 @@
         <p class="loading">Reading messages...</p>
     </div>
     <ul id="message-list">
-        {% for email in email_messages %}
-        <li>
-            <strong>Subject:</strong> {{ email.subject }}<br>
-            <strong>Sent Date:</strong> {{ email.sent_date }}<br>
-            <strong>Received Date:</strong> {{ email.received_date }}<br>
-            <strong>Body:</strong> {{ email.body }}<br>
-            <strong>Attachments:</strong> {{ email.attachments }}
-        </li>
-        {% endfor %}
+        {% if email_messages %}
+            {% for email in email_messages %}
+                <li>
+                    <strong>Subject:</strong> {{ email.subject }}<br>
+                    <strong>Sent Date:</strong> {{ email.sent_date }}<br>
+                    <strong>Received Date:</strong> {{ email.received_date }}<br>
+                    <strong>Body:</strong> {{ email.body }}<br>
+                    <strong>Attachments:</strong> {{ email.attachments }}
+                </li>
+            {% endfor %}
+        {% else %}
+            <li>No messages found.</li>
+        {% endif %}
     </ul>
 
     <script>
