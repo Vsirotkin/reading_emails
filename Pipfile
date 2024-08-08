@@ -3,7 +3,6 @@ url = "https://pypi.org/simple"
 verify_ssl = true
 name = "pypi"
 
-
 [packages]
 django              = "==4.2.14"
 djangorestframework = "==3.14.0"
@@ -13,10 +12,9 @@ Daphne              = "==4.0.0"
 IMAPClient          = "==3.0.1"
 pyzmail36           = "==1.0.5"
 psycopg2-binary     = "==2.9.9"
-
 requests = "*"
 lorem = "*"
-
+pytest = "*"
 
 [scripts]
 # Syntax: <command> = "<path_to_python> <path_to_manage.py> <command_options>"
@@ -29,11 +27,8 @@ emails = 'pipenv run python manage.py import_emails'
 asgi = "pipenv run daphne myproject.asgi:application"
 send = "pipenv run python manage.py send_messages"
 
-
 [dev-packages]
 pytest = "*"
-
-
 
 [requires]
 python_version = "3.11.9"
