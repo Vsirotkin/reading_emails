@@ -2,7 +2,7 @@
 
 {% block content %}
     <div id="progress-bar">
-        <p class="loading">Reading messages...</p>
+        <p class="loading">Reading messages: {{ message_count }}</p>
     </div>
     <ul id="message-list">
         {% if page_obj %}

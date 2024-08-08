@@ -24,15 +24,17 @@ class EmailMessageViewSet(viewsets.ModelViewSet):
         )
 
 
-# def email_list(request):
-#     email_messages = EmailMessage.objects.all()
-#     return render(request, 'myapp/email_list.html', {'email_messages': email_messages})
-
-
 def email_list(request):
     email_messages = EmailMessage.objects.all().order_by('-sent_date')
+    message_count = email_messages.count()
     paginator = Paginator(email_messages, 3)  # Показывать 3 сообщения на странице
 
     page_number = request.GET.get('page')
     page_obj = paginator.get_page(page_number)
-    return render(request, 'myapp/email_list.html', {'page_obj': page_obj})
+
+    context = {
+        'page_obj': email_messages,
+        'message_count': message_count,
+    }
+    return render(request, 'myapp/email_list.html', context)
+
