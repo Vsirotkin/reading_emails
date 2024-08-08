@@ -1,4 +1,5 @@
 from django.shortcuts import render
+from django.core.paginator import Paginator
 
 from rest_framework import viewsets
 from myapp.models import EmailMessage
@@ -23,6 +24,15 @@ class EmailMessageViewSet(viewsets.ModelViewSet):
         )
 
 
+# def email_list(request):
+#     email_messages = EmailMessage.objects.all()
+#     return render(request, 'myapp/email_list.html', {'email_messages': email_messages})
+
+
 def email_list(request):
-    email_messages = EmailMessage.objects.all()
-    return render(request, 'myapp/email_list.html', {'email_messages': email_messages})
+    email_messages = EmailMessage.objects.all().order_by('-sent_date')
+    paginator = Paginator(email_messages, 3)  # Показывать 3 сообщения на странице
+
+    page_number = request.GET.get('page')
+    page_obj = paginator.get_page(page_number)
+    return render(request, 'myapp/email_list.html', {'page_obj': page_obj})

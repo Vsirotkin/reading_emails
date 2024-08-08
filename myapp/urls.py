@@ -8,6 +8,5 @@ router.register(r'email-messages', EmailMessageViewSet)
 
 urlpatterns = [
     path('', email_list, name='email_list'),
-    # path('', TemplateView.as_view(template_name='myapp/index.html')),
     path('api/', include(router.urls)),
 ]
