@@ -118,15 +118,16 @@
     <script>
         document.addEventListener('DOMContentLoaded', function() {
             const socket = new WebSocket('ws://' + window.location.host + '/ws/email/');
-    
+            const loadingItem = document.querySelector('.loading');
+
             socket.onopen = function() {
                 console.log('WebSocket connection established');
-                const loadingItem = document.querySelector('.loading');
-                if (loadingItem) {
+                if (loadingItem && !loadingItem.textContent.includes('Reading messages:')) {
+                    console.log('Setting loading text to "Connected. Waiting for messages..."');
                     loadingItem.textContent = 'Connected. Waiting for messages...';
                 }
             };
-    
+
             socket.onmessage = function(e) {
                 const data = JSON.parse(e.data);
                 const messageList = document.getElementById('message-list');
@@ -139,15 +140,22 @@
                     <strong>Attachments:</strong> ${data.attachments}
                 `;
                 messageList.appendChild(newLi);
+
+                // Обновление количества сообщений
+                if (loadingItem) {
+                    const messageCount = messageList.childElementCount;
+                    console.log(`Updating message count to ${messageCount}`);
+                    loadingItem.textContent = `Reading messages: ${messageCount}`;
+                }
             };
-    
+
             socket.onclose = function(e) {
                 console.error('WebSocket closed unexpectedly');
                 if (e.code !== 1000) {
                     console.error('Connection closed. Please refresh the page to reconnect.');
                 }
             };
-    
+
             socket.onerror = function(error) {
                 console.error('WebSocket error:', error);
                 console.error('Connection error. Please try again later.');
