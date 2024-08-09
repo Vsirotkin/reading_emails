@@ -151,8 +151,8 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 
 # EMAIL
-EMAIL_USER = 'vsirotkin15@gmail.com'
-EMAIL_PASSWORD = 'opqb kwoc lenh ywaj'  # пароль, если включена двухфакторная аутентификация
+EMAIL_USER = '' # ваш google user
+EMAIL_PASSWORD = ''  # ваш пароль, если включена двухфакторная аутентификация
 
 # ASGI
 ASGI_APPLICATION = 'myproject.asgi.application'
