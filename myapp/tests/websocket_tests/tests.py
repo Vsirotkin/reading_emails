@@ -16,11 +16,11 @@ class WebSocketTests(TestCase):
         self.assertTrue(connected)
 
         # Отправка сообщения
-        await communicator.send_json_to({"type": "test.message", "text": "Hello, World!"})
+        await communicator.send_json_to({"type": "test.message", "message": "Hello, World!"})
 
         # Получение сообщения
         response = await communicator.receive_json_from()
-        self.assertEqual(response, {"type": "test.message", "text": "Hello, World!"})
+        self.assertEqual(response, {"message": "Hello, World!"})
 
         await communicator.disconnect()
 

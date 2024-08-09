@@ -17,6 +17,9 @@ COPY Pipfile Pipfile.lock /app/
 # Устанавливаем зависимости
 RUN pipenv install --system --deploy
 
+# Устанавливаем redis-cli
+RUN apk add --no-cache redis
+
 # Копируем проект
 COPY . /app/
 
